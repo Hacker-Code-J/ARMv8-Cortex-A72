@@ -15,6 +15,12 @@ project/
 │   ├── main.s           # Main assembly file
 │   └── utils.s          # Additional source files (optional)
 │
+├── practice/
+│   ├── Makefile
+│   ├── chap1.s
+│   ├── chap2.s
+│   └── ...
+│
 ├── Makefile             # Makefile to automate build process
 └── README.md            # Optional: Project documentation
 ```
