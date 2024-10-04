@@ -1,37 +1,21 @@
-/* Add 1
-//
-// Example of the ADD/MOVN instructions in AArch64.
-//
-.global _start               // Provide program starting address to linker
-.align 4                     // Ensure alignment
-
-// Multiply 2 by -1 by using MOVN and then adding 1
-_start: 
-    MOVN    W0, #0           // Load -1 into W0 (MOVN with #0 gives bitwise NOT of 0, i.e., all bits set to 1)
-    ADD     W0, W0, #1       // Add 1 to W0, resulting in W0 = 0
-
-// Setup the parameters to exit the program
-// W0 will be the return code (which is now 0).
-    MOV     X0, XZR          // Set X0 (64-bit register) to 0 (XZR is the zero register)
-    MOV     X8, #93          // System call number for exit (93)
-    SVC     #0               // Make system call to exit
-*/
-
-/* ADD2
+/* ADD 1 */
 //
 // Example of 128-Bit addition with the ADD/ADC instructions.
+//   0x 0003 0000 0000 0000 FFFF FFFF FFFF FFFF
+// + 0x 0005 0000 0000 0000 0000 0000 0000 0001
+// = 0x 0008 0000 0000 000010000 0000 0000 0000
 //
 .global _start               // Provide program starting address to linker
 .align 4                     // Ensure proper alignment
 
-// First 64-bit number is 0x0000000000000003FFFFFFFFFFFFFFFF
+// First 64-bit number is 0x0003000000000000 FFFFFFFFFFFFFFFF
 _start: 
-    MOVZ    X2, #0x0003, LSL #48  // Load 0x0000000000000003 into X2
-    MOVN    X3, #0                // Load 0xFFFFFFFFFFFFFFFF into X3 (MOVN sets all bits to 1)
+    MOVZ    X2, #0x0003, LSL #48  // Load 0x0003 0000 0000 0000 into X2
+    MOVN    X3, #0                // Load 0xFFFF FFFF FFFF FFFF into X3 (MOVN sets all bits to 1)
 
-// Second 64-bit number is 0x00000000000000050000000000000001
-    MOVZ    X4, #0x0005, LSL #48  // Load 0x0000000000000005 into X4
-    MOVZ    X5, #1                // Load 0x0000000000000001 into X5
+// Second 64-bit number is 0x0005000000000000 0000000000000001
+    MOVZ    X4, #0x0005, LSL #48  // Load 0x0005 0000 0000 0000 into X4
+    MOVZ    X5, #1                // Load 0x0000 0000 0000 0001 into X5
 
     ADDS    X1, X3, X5            // Lower-order word addition with carry
     ADC     X0, X2, X4            // Higher-order word addition with carry
@@ -41,13 +25,14 @@ _start:
     MOV     X0, #0                // Set exit code to 0 (successful exit)
     MOV     X8, #93               // System call number for exit (93)
     SVC     #0                    // Call kernel to terminate the program
- */
+
 
 //
 // This file contains the various code snippets
 // from Chapter 2, corrected for AArch64.
 //
 
+/* ADD 3
 .global _start
 .align 4
 
@@ -116,3 +101,4 @@ l9:
 .data
 helloworld:	
     .ascii "Hello World!"
+*/
